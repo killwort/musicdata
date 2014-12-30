@@ -129,6 +129,7 @@ namespace LyricsCore.Impl
             if (node.NodeType == HtmlNodeType.Element)
             {
                 var tagName = node.Name.ToLower();
+                if(tagName=="script")return;
                 if (tagName == "p" || tagName == "br")
                     builder.AppendLine();
             }else if (node.NodeType == HtmlNodeType.Text)

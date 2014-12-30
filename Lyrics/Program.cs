@@ -17,6 +17,7 @@ namespace Lyrics
                 Bind<PlayerInteraction>().To<MpdPlayer>();
                 Bind<MetadataTransformer>().To<NullMetadataTransformer>();
                 Bind<Display>().To<WinFormsDisplay.WinFormsDisplay>();
+//                Rebind<Display>().To<ConsoleDisplay>();
                 Bind<Database>().To<FilesystemDatabase>();
                 Bind<Fetcher>().To<LyricWikiFetcher>();
                 Bind<Fetcher>().To<DarkLyricsFetcher>();
