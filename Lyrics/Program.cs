@@ -14,13 +14,13 @@ namespace Lyrics
         {
             public override void Load()
             {
-                Bind<PlayerInteraction>().To<MpdPlayer>();
+                Bind<PlayerInteraction>().To<MpdPlayer>().WithConstructorArgument("host",new InjectableSetting<string>("router.mediaparts")).WithConstructorArgument("port",new InjectableSetting<int>(6600));
                 Bind<MetadataTransformer>().To<NullMetadataTransformer>();
                 Bind<Display>().To<WinFormsDisplay.WinFormsDisplay>();
 //                Rebind<Display>().To<ConsoleDisplay>();
                 Bind<Database>().To<FilesystemDatabase>();
-                Bind<Fetcher>().To<LyricWikiFetcher>();
-                Bind<Fetcher>().To<DarkLyricsFetcher>();
+                Bind<Fetcher>().To<Lyrics123Fetcher>();
+                //Bind<Fetcher>().To<DarkLyricsFetcher>();
             }
         }
 

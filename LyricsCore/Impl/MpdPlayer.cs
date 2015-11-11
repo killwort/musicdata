@@ -89,19 +89,24 @@ namespace LyricsCore.Impl
 
         private Thread _pollerThread;
 
-        [Inject]
-        public InjectableSetting<TimeSpan> PollingInterval { get; set; }
-        [Inject]
-        public InjectableSetting<string> Host { get; set; }
-        [Inject]
-        public InjectableSetting<int> Port { get; set; }
+        private readonly InjectableSetting<TimeSpan> PollingInterval;
+        private readonly InjectableSetting<string> Host;
+        private readonly InjectableSetting<int> Port;
 
         [Inject]
         public ILog Logger { get; set; }
-
-        public MpdPlayer()
+        public MpdPlayer(InjectableSetting<TimeSpan> pollingInterval, InjectableSetting<string> host, InjectableSetting<int> port)
         {
+            PollingInterval = pollingInterval;
+            Host = host;
+            Port = port;
         }
+        /*
+        public MpdPlayer(string host,int port,InjectableSetting<TimeSpan> pollingInterval)
+        {
+            Host=new InjectableSetting<string>(host);
+            Port=new InjectableSetting<int>(port);
+        }*/
 
         private void Poller()
         {

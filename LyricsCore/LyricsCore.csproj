@@ -57,6 +57,7 @@
     <Compile Include="Database.cs" />
     <Compile Include="Fetcher.cs" />
     <Compile Include="Impl\FilesystemDatabase.cs" />
+    <Compile Include="Impl\Lyrics123Fetcher.cs" />
     <Compile Include="Impl\LyricWikiFetcher.cs" />
     <Compile Include="Impl\ConsoleDisplay.cs" />
     <Compile Include="Impl\DarkLyricsFetcher.cs" />

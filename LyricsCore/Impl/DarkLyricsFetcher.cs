@@ -48,7 +48,8 @@ namespace LyricsCore.Impl
         protected override Lyric ParseSongPage(Song song, HtmlDocument document, string hash)
         {
             var songTitleNode = document.DocumentNode.SelectSingleNode("//h3/a[@name=\"" + hash.Substring(1) + "\"]/..");
-            var nextTitleNode = songTitleNode.SelectSingleNode("following-sibling::h3[1]");
+            var nextTitleNode = songTitleNode.SelectSingleNode("following-sibling::h3[1]") 
+                ?? songTitleNode.SelectSingleNode("following-sibling::div[@class=\"thanks\"]");
             var songNodes = new List<HtmlNode>();
             songTitleNode = songTitleNode.NextSibling;
             while (songTitleNode != null && songTitleNode != nextTitleNode)
