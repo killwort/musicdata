@@ -20,5 +20,10 @@ namespace LyricsCore.Impl
             Console.WriteLine(lyric.Text);
             Console.WriteLine();
         }
+
+        public override void DoDisplay(Art art)
+        {
+            
+        }
     }
 }

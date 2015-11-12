@@ -9,7 +9,7 @@ using Ninject;
 
 namespace LyricsCore.Impl
 {
-    public class DarkLyricsFetcher : HtmlFetcher
+    public class DarkLyricsLyricFetcher : HtmlLyricFetcher
     {
         private static readonly Uri Base = new Uri("http://www.darklyrics.com");
         protected override Uri SearchPage(Song song)

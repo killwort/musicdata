@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using HtmlAgilityPack;
 
 namespace LyricsCore.Impl
 {
-    public class Lyrics123Fetcher:HtmlFetcher
+    public class Lyrics123LyricFetcher:HtmlLyricFetcher
     {
         static readonly Uri Base = new Uri("http://lyrics123.net/");
+        static Regex BadChars=new Regex("[^a-z0-9A-Z]+");
         protected override Uri SearchPage(Song song)
         {
-            return new Uri(Base,string.Format("/lyrics-search/{0}-{1}/", Uri.EscapeDataString(song.Artist.Replace(' ','-')), Uri.EscapeDataString(song.Title.Replace(' ', '-'))));
+            return new Uri(Base,string.Format("/lyrics-search/{0}-{1}/",BadChars.Replace(song.Artist,"-"), BadChars.Replace(song.Title, "-")));
         }
 
         protected override Uri NextSearchPage(Song song, HtmlDocument document)
@@ -31,7 +33,8 @@ namespace LyricsCore.Impl
             {
                 artist = !artist;
                 if (artist) continue;
-                yield return new WithCertainity<Uri>(new Uri(Base,node.Attributes["href"].Value),.99f);
+                yield return new WithCertainity<Uri>(new Uri(Base,node.Attributes["href"].Value),.8f);
+                yield break;
             }
         }
 

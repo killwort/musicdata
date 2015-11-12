@@ -40,6 +40,10 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-client\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -49,28 +53,33 @@
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Art.cs" />
     <Compile Include="Configuration\LyricsModule.cs" />
     <Compile Include="Configuration\InjectableSetting.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Fetcher.cs" />
+    <Compile Include="Impl\FanartTvArtFetcher.cs" />
+    <Compile Include="Impl\MusicbrainzIdentifier.cs" />
+    <Compile Include="LyricFetcher.cs" />
     <Compile Include="Impl\FilesystemDatabase.cs" />
-    <Compile Include="Impl\Lyrics123Fetcher.cs" />
-    <Compile Include="Impl\LyricWikiFetcher.cs" />
+    <Compile Include="Impl\Lyrics123LyricFetcher.cs" />
+    <Compile Include="Impl\LyricWikiLyricFetcher.cs" />
     <Compile Include="Impl\ConsoleDisplay.cs" />
-    <Compile Include="Impl\DarkLyricsFetcher.cs" />
-    <Compile Include="Impl\HtmlFetcher.cs" />
+    <Compile Include="Impl\DarkLyricsLyricFetcher.cs" />
+    <Compile Include="Impl\HtmlLyricFetcher.cs" />
     <Compile Include="Impl\NullDatabase.cs" />
     <Compile Include="Impl\MpdPlayer.cs" />
     <Compile Include="Impl\NullDisplay.cs" />
-    <Compile Include="Impl\NullFetcher.cs" />
+    <Compile Include="Impl\NullLyricFetcher.cs" />
     <Compile Include="Impl\NullMetadataTransformer.cs" />
     <Compile Include="Impl\NullPlayer.cs" />
     <Compile Include="Lyric.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="LyricType.cs" />
+    <Compile Include="Metadata.cs" />
     <Compile Include="MetadataTransformer.cs" />
     <Compile Include="PlayerInteraction.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -83,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

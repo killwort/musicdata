@@ -5,5 +5,10 @@ namespace LyricsCore.Impl
         {
             
         }
+
+        public override void DoDisplay(Art art)
+        {
+            
+        }
     }
 }

@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 
 namespace LyricsCore.Impl
 {
-    public class LyricWikiFetcher:HtmlFetcher
+    public class LyricWikiLyricFetcher:HtmlLyricFetcher
     {
         static readonly Uri Base = new Uri("http://lyrics.wikia.com/");
         protected override Uri SearchPage(Song song)

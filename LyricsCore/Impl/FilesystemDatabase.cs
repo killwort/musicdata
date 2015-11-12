@@ -19,27 +19,32 @@ namespace LyricsCore.Impl
         {
             return SymbolsCleanup.Replace(SmallWordsCleanup.Replace(pathComponent.ToLower(), " ").Trim(), "_");
         }
-        public override IEnumerable<WithCertainity<Lyric>> Get(Song song)
+        public override IEnumerable<WithCertainity<T>> Get<T>(Song song)
         {
             string dir = Path.Combine(DatabasePath, MakePathSafe(song.Artist), MakePathSafe(song.Title));
             if (!Directory.Exists(dir)) yield break;
-            foreach (var f in Directory.EnumerateFiles(dir))
+            foreach (var f in Directory.EnumerateFiles(dir,"*."+typeof(T).Name))
             {
-                yield return new WithCertainity<Lyric>(new Lyric {Text = File.ReadAllText(f), OriginalMetadata = song});
+                var m = new T()
+                {
+                    OriginalMetadata = song
+                };
+                using (var stream = File.OpenRead(f))
+                    m.Deserialize(stream);
+               
+                yield return new WithCertainity<T>(m);
             }
         }
 
-        public override void Save(Song song, IEnumerable<WithCertainity<Lyric>> lyrics)
+        public override void Save<T>(Song song, IEnumerable<WithCertainity<T>> lyrics)
         {
-            var md = MD5.Create();
             string dir = Path.Combine(DatabasePath, MakePathSafe(song.Artist), MakePathSafe(song.Title));
             if (!Directory.Exists(dir))Directory.CreateDirectory(dir);
             foreach (var lyric in lyrics)
             {
-                var file=Path.Combine(dir,md.ComputeHash(Encoding.UTF8.GetBytes(lyric.Value.Text)).Aggregate(new StringBuilder(32), (b, by) => b.Append(by.ToString("x2"))) + ".txt");
-                using(var f=File.Create(file))
-                using (var writer = new StreamWriter(f))
-                    writer.Write(lyric.Value.Text);
+                var file=Path.Combine(dir,lyric.Value.Hash + "."+typeof(T).Name);
+                using (var f = File.Create(file))
+                    lyric.Value.Serialize(f);
             }
         }
     }

@@ -11,7 +11,7 @@ using Ninject;
 
 namespace LyricsCore.Impl
 {
-    public abstract class HtmlFetcher : Fetcher
+    public abstract class HtmlLyricFetcher : LyricFetcher
     {
         [Inject]
         public ILog Logger { get; set; }
