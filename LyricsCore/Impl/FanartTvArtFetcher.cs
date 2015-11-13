@@ -21,7 +21,7 @@ namespace LyricsCore.Impl
                 using (var reader = new StreamReader(strm))
                 {
                     var json = (JObject)JsonConvert.DeserializeObject(reader.ReadToEnd());
-                    var url = ((JProperty)(json["albums"])?.Children().First()).Value["albumcover"].First()["url"];
+                    var url = ((JProperty)(json["albums"]).Children().First()).Value["albumcover"].First()["url"];
                     using (var resp2 = WebRequest.Create(url.ToString()).GetResponse())
                     using (var strm2 = resp2.GetResponseStream())
                     {

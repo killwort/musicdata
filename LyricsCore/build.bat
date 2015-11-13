@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Mono\bin\mcs.bat" -r:bin\debug\log4net.dll -r bin\debug\HtmlAgilityPack.dll -r bin\debug\Newtonsoft.Json.dll -r bin\debug\ninject.dll  -r system.xml -r system.xml.linq -r system.web *.cs impl\*.cs configuration\*.cs -t:library -out:lyricscore.dll
