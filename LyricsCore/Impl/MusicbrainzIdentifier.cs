@@ -15,7 +15,7 @@ namespace LyricsCore.Impl
         */
         public static Guid? GetAlbumId(string artist, string album)
         {
-            var request = WebRequest.Create(string.Format("{0}release-group?query=artist:{1}%20AND%20%22{2}%22", Base, Uri.EscapeDataString(artist), Uri.EscapeDataString(album)));
+            var request = WebRequest.Create(string.Format("{0}release-group?query=artist:%22{1}%22%20AND%20%22{2}%22~3", Base, Uri.EscapeDataString(artist), Uri.EscapeDataString(StringSanitizer.Sanitize(album))));
             using (var response = request.GetResponse())
             using (var strm = response.GetResponseStream())
             {

@@ -9,12 +9,11 @@ namespace LyricsCore.Impl
     public class FilesystemDatabase:Database
     {
         private static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MusicData","Database");
-        private static readonly Regex SmallWordsCleanup = new Regex("((^|\\s+)((\\p{Ll}|\\p{Lu}){1,2}|the|and|feat))+(\\s+|$)");
         private static readonly Regex SymbolsCleanup = new Regex("\\P{Ll}+");
 
         private static string MakePathSafe(string pathComponent)
         {
-            return SymbolsCleanup.Replace(SmallWordsCleanup.Replace(pathComponent.ToLower(), " ").Trim(), "_");
+            return SymbolsCleanup.Replace(StringSanitizer.Sanitize(pathComponent.ToLower()), "_");
         }
 
         private string GetBasePath<T>(Song song)
