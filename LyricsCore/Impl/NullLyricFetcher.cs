@@ -2,9 +2,9 @@
 
 namespace LyricsCore.Impl
 {
-    public class NullLyricFetcher : LyricFetcher
+    public class NullFetcher<T> : Fetcher<T> where T:Metadata
     {
-        public override IEnumerable<WithCertainity<Lyric>> GetLyrics(Song song)
+        public override IEnumerable<WithCertainity<T>> Fetch(Song song)
         {
             yield break;
         }

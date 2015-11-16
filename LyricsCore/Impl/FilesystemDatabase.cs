@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace LyricsCore.Impl
 {
     public class FilesystemDatabase:Database
     {
-        private static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lyrics","Database");
+        private static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MusicData","Database");
         private static readonly Regex SmallWordsCleanup = new Regex("((^|\\s+)((\\p{Ll}|\\p{Lu}){1,2}|the|and|feat))+(\\s+|$)");
         private static readonly Regex SymbolsCleanup = new Regex("\\P{Ll}+");
 
@@ -19,13 +16,37 @@ namespace LyricsCore.Impl
         {
             return SymbolsCleanup.Replace(SmallWordsCleanup.Replace(pathComponent.ToLower(), " ").Trim(), "_");
         }
+
+        private string GetBasePath<T>(Song song)
+        {
+            var usage=Usage.Track;
+            var attr=typeof (T).GetCustomAttributes(typeof (MetadataUsageAttribute),true).OfType<MetadataUsageAttribute>().FirstOrDefault();
+            if (attr != null)
+                usage = attr.Usage;
+            string path;
+            switch (usage)
+            {
+                case Usage.Artist:
+                    path = Path.Combine(DatabasePath, MakePathSafe(song.Artist));
+                    break;
+                    case Usage.Album:
+                    path = Path.Combine(DatabasePath, MakePathSafe(song.Artist), "_Albums", MakePathSafe(song.Album));
+                    break;
+                case Usage.Track:
+                default:
+                    path= Path.Combine(DatabasePath, MakePathSafe(song.Artist), MakePathSafe(song.Title));
+                    break;
+            }
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            return path;
+        }
         public override IEnumerable<WithCertainity<T>> Get<T>(Song song)
         {
-            string dir = Path.Combine(DatabasePath, MakePathSafe(song.Artist), MakePathSafe(song.Title));
-            if (!Directory.Exists(dir)) yield break;
+            string dir = GetBasePath<T>(song);
             foreach (var f in Directory.EnumerateFiles(dir,"*."+typeof(T).Name))
             {
-                var m = new T()
+                var m = new T
                 {
                     OriginalMetadata = song
                 };
@@ -36,11 +57,10 @@ namespace LyricsCore.Impl
             }
         }
 
-        public override void Save<T>(Song song, IEnumerable<WithCertainity<T>> lyrics)
+        public override void Save<T>(Song song, IEnumerable<WithCertainity<T>> data)
         {
-            string dir = Path.Combine(DatabasePath, MakePathSafe(song.Artist), MakePathSafe(song.Title));
-            if (!Directory.Exists(dir))Directory.CreateDirectory(dir);
-            foreach (var lyric in lyrics)
+            string dir = GetBasePath<T>(song);
+            foreach (var lyric in data)
             {
                 var file=Path.Combine(dir,lyric.Value.Hash + "."+typeof(T).Name);
                 using (var f = File.Create(file))

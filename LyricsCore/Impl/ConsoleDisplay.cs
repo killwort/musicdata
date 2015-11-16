@@ -21,7 +21,7 @@ namespace LyricsCore.Impl
             Console.WriteLine();
         }
 
-        public override void DoDisplay(Art art)
+        public override void DoDisplay(AlbumArt albumArt)
         {
             
         }

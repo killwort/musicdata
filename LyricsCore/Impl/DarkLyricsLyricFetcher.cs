@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using HtmlAgilityPack;
-using log4net;
-using Ninject;
 
 namespace LyricsCore.Impl
 {

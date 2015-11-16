@@ -7,10 +7,36 @@ using Newtonsoft.Json.Linq;
 
 namespace LyricsCore.Impl
 {
-    public class FanartTvArtFetcher : ArtFetcher
+    public class MpdFilesystemArtFetcher : Fetcher<AlbumArt>
+    {
+        private string MpdMusicBase = @"\\SRV\public\music";
+        private string[] AcceptableExtensions = new[] {".jpg", ".png", ".gif", ".bmp", "*.jpeg"};
+        public override IEnumerable<WithCertainity<AlbumArt>> Fetch(Song song)
+        {
+            var dir = Path.GetDirectoryName(Path.Combine(MpdMusicBase, song.FilesystemPath));
+            if (Directory.Exists(dir))
+            {
+                var candidates = Directory.EnumerateFiles(dir)
+                        .Where(file => AcceptableExtensions.Contains(Path.GetExtension(file).ToLower()))
+                        .Select(x=>new FileInfo(x))
+                        .Where(x=>x.Length<20971520)//No more than 20M
+                        .OrderByDescending(x=>x.Length).ToList();
+                if (candidates.Any())
+                {
+                    var norm = candidates.First().Length;
+                    foreach (var candidate in candidates)
+                    {
+                        yield return new WithCertainity<AlbumArt>(new AlbumArt(candidate.OpenRead()),((float)candidate.Length)/norm);
+                    }
+                }
+            }
+            yield break;
+        }
+    }
+    public class FanartTvArtFetcher : Fetcher<AlbumArt>
     {
         const string ApiKey = "08521997c1955a6c6f2f5b8c75fffd4c";
-        public override IEnumerable<WithCertainity<Art>> GetArt(Song song)
+        public override IEnumerable<WithCertainity<AlbumArt>> Fetch(Song song)
         {
             var iid = MusicbrainzIdentifier.GetAlbumId(song.Artist, song.Album);
             if (iid.HasValue)
@@ -27,9 +53,9 @@ namespace LyricsCore.Impl
                     {
                         var ms=new MemoryStream();
                         strm2.CopyTo(ms);
-                        yield return new WithCertainity<Art>(new Art
+                        yield return new WithCertainity<AlbumArt>(new AlbumArt
                         {
-                            AlbumArt = ms.ToArray()
+                            ImageData = ms.ToArray()
                         }, 1f);
                     }
                 }

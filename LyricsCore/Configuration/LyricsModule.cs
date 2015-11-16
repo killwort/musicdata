@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Reflection;
 using log4net;
-using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
-using Ninject.Planning.Bindings;
 
 namespace LyricsCore.Configuration
 {

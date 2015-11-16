@@ -5,19 +5,28 @@ using System.Text;
 
 namespace LyricsCore
 {
-    public class Art:Metadata
+    public abstract class Art:Metadata
     {
-        public byte[] AlbumArt { get; set; }
+        public Art() { }
+
+        public Art(Stream input)
+        {
+            ImageData=new byte[input.Length];
+            input.Read(ImageData, 0, ImageData.Length);
+            input.Close();
+            input.Dispose();
+        }
+        public byte[] ImageData { get; set; }
         public override void Serialize(Stream stream)
         {
-            stream.Write(AlbumArt,0,AlbumArt.Length);
+            stream.Write(ImageData,0,ImageData.Length);
         }
 
         public override void Deserialize(Stream stream)
         {
             var ms=new MemoryStream();
             stream.CopyTo(ms);
-            AlbumArt = ms.ToArray();
+            ImageData = ms.ToArray();
         }
 
         public override string Hash
@@ -25,7 +34,7 @@ namespace LyricsCore
             get
             {
                 var md = MD5.Create();
-                return md.ComputeHash(AlbumArt).Aggregate(new StringBuilder(32), (b, by) => b.Append(by.ToString("x2"))).ToString();
+                return md.ComputeHash(ImageData).Aggregate(new StringBuilder(32), (b, by) => b.Append(by.ToString("x2"))).ToString();
             }
         }
     }

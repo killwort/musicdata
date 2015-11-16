@@ -3,6 +3,6 @@
     public abstract class Display
     {
         public abstract void DoDisplay(Lyric lyric);
-        public abstract void DoDisplay(Art art);
+        public abstract void DoDisplay(AlbumArt albumArt);
     }
 }

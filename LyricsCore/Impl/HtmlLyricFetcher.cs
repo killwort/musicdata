@@ -11,7 +11,7 @@ using Ninject;
 
 namespace LyricsCore.Impl
 {
-    public abstract class HtmlLyricFetcher : LyricFetcher
+    public abstract class HtmlLyricFetcher : Fetcher<Lyric>
     {
         [Inject]
         public ILog Logger { get; set; }
@@ -19,7 +19,7 @@ namespace LyricsCore.Impl
         protected abstract Uri NextSearchPage(Song song, HtmlDocument document);
         protected abstract IEnumerable<WithCertainity<Uri>> ParseSearchResults(Song song, HtmlDocument document);
         protected abstract Lyric ParseSongPage(Song song, HtmlDocument document,string hash);
-        public override IEnumerable<WithCertainity<Lyric>> GetLyrics(Song song)
+        public override IEnumerable<WithCertainity<Lyric>> Fetch(Song song)
         {
             var url = SearchPage(song);
             do

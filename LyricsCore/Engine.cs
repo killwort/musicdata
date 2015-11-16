@@ -3,30 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using log4net;
-using LyricsCore.Impl;
 
 namespace LyricsCore
 {
     public class Engine
     {
-        private readonly List<LyricFetcher> _lyricFetchers;
-        private readonly List<ArtFetcher> _artFetchers;
+        private readonly IEnumerable<Fetcher<Lyric>> _lyricFetchers;
+        private readonly IEnumerable<Fetcher<AlbumArt>> _artFetchers;
         private readonly Database _database;
-        private PlayerInteraction Player;
+        private readonly PlayerInteraction _player;
         private readonly List<MetadataTransformer> _metadataTransformers;
         private readonly Display _display;
         private readonly ILog _logger;
 
-        public Engine(IEnumerable<LyricFetcher> fetchers,IEnumerable<ArtFetcher> artFetchers, Database database, PlayerInteraction player, IEnumerable<MetadataTransformer> metadataTransformers, Display display, ILog logger)
+        public Engine(IEnumerable<Fetcher<Lyric>> fetchers,
+            IEnumerable<Fetcher<AlbumArt>> artFetchers,
+            Database database, PlayerInteraction player, IEnumerable<MetadataTransformer> metadataTransformers,
+            Display display, ILog logger)
         {
-            _lyricFetchers = new List<LyricFetcher>(fetchers);
-            _artFetchers=new List<ArtFetcher>(artFetchers);
+            _lyricFetchers = fetchers;
+            _artFetchers = artFetchers;
             _database = database;
-            Player = player;
+            _player = player;
             _display = display;
             _logger = logger;
             _metadataTransformers = new List<MetadataTransformer>(metadataTransformers);
-            Player.SongChanged += Player_SongChanged;
+            _player.SongChanged += Player_SongChanged;
         }
 
         void Player_SongChanged(SongEventArgs args)
@@ -45,11 +47,11 @@ namespace LyricsCore
                 if (lyric.Any())
                     _display.DoDisplay(lyric.First().Value);
                 else
-                    _display.DoDisplay(new Art {AlbumArt = null, OriginalMetadata = args.Song});
+                    _display.DoDisplay(new AlbumArt {ImageData = null, OriginalMetadata = args.Song});
             });
         }
 
-        private IEnumerable<WithCertainity<T>> Fetch<T,F>(Song song, bool stopOnFirst,IEnumerable<F> fetchers,Func<F,Song,IEnumerable<WithCertainity<T>>> xfetcher) where T :Metadata, new()
+        private IEnumerable<WithCertainity<T>> Fetch<T>(Song song, bool stopOnFirst,IEnumerable<Fetcher<T>> fetchers) where T :Metadata, new()
         {
             if (string.IsNullOrEmpty(song.Artist) && string.IsNullOrEmpty(song.Title)) return new WithCertainity<T>[0];
             if (string.IsNullOrEmpty(song.Artist))
@@ -73,7 +75,7 @@ namespace LyricsCore
                     WithCertainity<T>[] result;
                     try
                     {
-                        result = xfetcher(fetcher,synonim.Value).ToArray();
+                        result = fetcher.Fetch(synonim.Value).ToArray();
                     }
                     catch (Exception e)
                     {
@@ -101,14 +103,14 @@ namespace LyricsCore
             return results.OrderByDescending(x => x.Certainity);
         }
 
-        private IEnumerable<WithCertainity<Art>> FetchAlbumArt(Song song, bool stopOnFirst)
+        private IEnumerable<WithCertainity<AlbumArt>> FetchAlbumArt(Song song, bool stopOnFirst)
         {
-            return Fetch(song, stopOnFirst, _artFetchers, (f, s) => f.GetArt(s));
+            return Fetch(song, stopOnFirst, _artFetchers);
         }
 
         private IEnumerable<WithCertainity<Lyric>> FetchLyrics(Song song, bool stopOnFirst)
         {
-            return Fetch(song, stopOnFirst, _lyricFetchers, (f, s) => f.GetLyrics(s));
+            return Fetch(song, stopOnFirst, _lyricFetchers);
         }
     }
 }
