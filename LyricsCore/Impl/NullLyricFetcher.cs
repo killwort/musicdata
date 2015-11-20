@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class NullFetcher<T> : Fetcher<T> where T:Metadata
     {

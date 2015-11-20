@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using log4net;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     static class MusicbrainzIdentifier
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(MusicbrainzIdentifier));
         static string Base = "http://musicbrainz.org/ws/2/";
         /*public Guid? GetArtistId(string artist)
         {
@@ -23,6 +25,7 @@ namespace LyricsCore.Impl
                 var elem=xdoc.Descendants(XName.Get("release-group", "http://musicbrainz.org/ns/mmd-2.0#")).FirstOrDefault();
                 if (elem != null)
                 {
+                    Logger.DebugFormat("Musicbrainz release-group id {0}", elem.Attribute("id").Value);
                     return Guid.Parse(elem.Attribute("id").Value);
                 }
             }

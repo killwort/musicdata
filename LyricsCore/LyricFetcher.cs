@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LyricsCore
+namespace MusicData
 {
     public abstract class Fetcher<T> where T:Metadata
     {

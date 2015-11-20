@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace LyricsCore
+namespace MusicData
 {
     [MetadataUsage(Usage.Album)]
     public class AlbumArt : Art

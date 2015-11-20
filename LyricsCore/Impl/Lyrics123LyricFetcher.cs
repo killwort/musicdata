@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class Lyrics123LyricFetcher:HtmlLyricFetcher
     {

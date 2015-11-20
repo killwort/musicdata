@@ -1,4 +1,4 @@
-﻿namespace LyricsCore
+﻿namespace MusicData
 {
     public abstract class Display
     {

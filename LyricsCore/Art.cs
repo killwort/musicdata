@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LyricsCore
+namespace MusicData
 {
     public abstract class Art:Metadata
     {

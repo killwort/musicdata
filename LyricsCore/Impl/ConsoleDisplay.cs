@@ -1,6 +1,6 @@
 using System;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class ConsoleDisplay : Display
     {

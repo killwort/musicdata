@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace LyricsCore
+namespace MusicData
 {
     public abstract class Metadata
     {

@@ -5,10 +5,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using log4net;
-using LyricsCore.Configuration;
+using MusicData.Configuration;
 using Ninject;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class MpdPlayer:PlayerInteraction,IStartable
     {
@@ -152,12 +152,12 @@ namespace LyricsCore.Impl
                         }
                         if (lastSong == null || lastSong.Album != current.Album || lastSong.Artist != current.Artist || lastSong.Title != current.Title)
                         {
-                            OnSongChanged(new SongEventArgs(new Song
+                            OnSongChanged(new Song
                             {
                                 Album = current.Album,
                                 Artist = current.Artist,
                                 Title = current.Title
-                            }));
+                            });
                         }
                         lastSong = current;
                     }

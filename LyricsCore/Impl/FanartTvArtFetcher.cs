@@ -1,18 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ninject.Activation.Strategies;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class MpdFilesystemArtFetcher : Fetcher<AlbumArt>
     {
-        private string MpdMusicBase = @"\\SRV\public\music";
+        public MpdFilesystemArtFetcher()
+        {
+            var asr=new AppSettingsReader();
+            try
+            {
+                MpdMusicBase = (string) asr.GetValue(typeof (MpdFilesystemArtFetcher).FullName + ".MpdMusicBase", typeof (string));
+            }
+            catch
+            {
+                MpdMusicBase = null;
+            }
+        }
+        private string MpdMusicBase;
         private string[] AcceptableExtensions = new[] {".jpg", ".png", ".gif", ".bmp", "*.jpeg"};
         public override IEnumerable<WithCertainity<AlbumArt>> Fetch(Song song)
         {
+            if(string.IsNullOrEmpty(MpdMusicBase))yield break;
             var dir = Path.GetDirectoryName(Path.Combine(MpdMusicBase, song.FilesystemPath));
             if (Directory.Exists(dir))
             {

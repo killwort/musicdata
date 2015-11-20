@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using HtmlAgilityPack;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class DarkLyricsLyricFetcher : HtmlLyricFetcher
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class NullDatabase:Database
     {

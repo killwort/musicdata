@@ -1,6 +1,6 @@
 using System;
 
-namespace LyricsCore
+namespace MusicData
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class MetadataUsageAttribute : Attribute

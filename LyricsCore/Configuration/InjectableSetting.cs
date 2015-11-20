@@ -1,4 +1,4 @@
-namespace LyricsCore.Configuration
+namespace MusicData.Configuration
 {
     public class InjectableSetting<T>
     {

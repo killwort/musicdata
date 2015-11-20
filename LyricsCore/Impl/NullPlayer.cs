@@ -1,4 +1,4 @@
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class NullPlayer : PlayerInteraction { }
 }

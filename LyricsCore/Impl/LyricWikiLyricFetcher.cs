@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HtmlAgilityPack;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class LyricWikiLyricFetcher:HtmlLyricFetcher
     {

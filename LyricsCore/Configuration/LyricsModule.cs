@@ -5,7 +5,7 @@ using log4net;
 using Ninject.Activation;
 using Ninject.Modules;
 
-namespace LyricsCore.Configuration
+namespace MusicData.Configuration
 {
     public class LyricsModule : NinjectModule
     {

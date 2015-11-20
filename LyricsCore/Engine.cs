@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using log4net;
 
-namespace LyricsCore
+namespace MusicData
 {
     public class Engine
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Engine));
         private readonly IEnumerable<Fetcher<Lyric>> _lyricFetchers;
         private readonly IEnumerable<Fetcher<AlbumArt>> _artFetchers;
         private readonly Database _database;
@@ -31,23 +32,24 @@ namespace LyricsCore
             _player.SongChanged += Player_SongChanged;
         }
 
-        void Player_SongChanged(SongEventArgs args)
+        void Player_SongChanged(object sender, Song song)
         {
+            Logger.InfoFormat("Going to fetch metadata for {0}", song);
             Task.Factory.StartNew(() =>
             {
-                var lyric = FetchLyrics(args.Song, true);
+                var lyric = FetchLyrics(song, true);
                 if (lyric.Any())
                     _display.DoDisplay(lyric.First().Value);
                 else
-                    _display.DoDisplay(new Lyric {Text = "", OriginalMetadata = args.Song});
+                    _display.DoDisplay(new Lyric {Text = "", OriginalMetadata = song});
             });
             Task.Factory.StartNew(() =>
             {
-                var lyric = FetchAlbumArt(args.Song, true);
+                var lyric = FetchAlbumArt(song, true);
                 if (lyric.Any())
                     _display.DoDisplay(lyric.First().Value);
                 else
-                    _display.DoDisplay(new AlbumArt {ImageData = null, OriginalMetadata = args.Song});
+                    _display.DoDisplay(new AlbumArt {ImageData = null, OriginalMetadata = song});
             });
         }
 

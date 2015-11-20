@@ -1,4 +1,4 @@
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class NullDisplay : Display {
         public override void DoDisplay(Lyric lyric)

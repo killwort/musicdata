@@ -1,13 +1,15 @@
-namespace LyricsCore
+using System;
+
+namespace MusicData
 {
     public abstract class PlayerInteraction
     {
-        public event SongEvent SongChanged;
+        public event EventHandler<Song> SongChanged;
 
-        protected virtual void OnSongChanged(SongEventArgs args)
+        protected virtual void OnSongChanged(Song args)
         {
-            SongEvent handler = SongChanged;
-            if (handler != null) handler(args);
+            var handler = SongChanged;
+            if (handler != null) handler(this,args);
         }
     }
 }

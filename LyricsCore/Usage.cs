@@ -1,6 +1,6 @@
 using System;
 
-namespace LyricsCore
+namespace MusicData
 {
     [Flags]
     public enum Usage

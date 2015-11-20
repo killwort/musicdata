@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public class FilesystemDatabase:Database
     {

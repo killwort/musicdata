@@ -9,7 +9,7 @@ using HtmlAgilityPack;
 using log4net;
 using Ninject;
 
-namespace LyricsCore.Impl
+namespace MusicData.Impl
 {
     public abstract class HtmlLyricFetcher : Fetcher<Lyric>
     {
