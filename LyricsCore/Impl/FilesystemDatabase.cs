@@ -59,11 +59,17 @@ namespace MusicData.Impl
         public override void Save<T>(Song song, IEnumerable<WithCertainity<T>> data)
         {
             string dir = GetBasePath<T>(song);
-            foreach (var lyric in data)
+            foreach (var item in data)
             {
-                var file=Path.Combine(dir,lyric.Value.Hash + "."+typeof(T).Name);
+                var file = Path.Combine(dir, item.Value.Hash + "." + typeof(T).Name);
                 using (var f = File.Create(file))
-                    lyric.Value.Serialize(f);
+                    item.Value.Serialize(f);
+                file = Path.Combine(dir, item.Value.Hash + "." + typeof (T).Name + ".m");
+                using (var f = File.CreateText(file))
+                {
+                    f.WriteLine(item.Value.Fetcher);
+                    f.WriteLine(item.Value.FetcherData);
+                }
             }
         }
     }

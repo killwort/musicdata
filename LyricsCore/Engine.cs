@@ -37,7 +37,7 @@ namespace MusicData
             Logger.InfoFormat("Going to fetch metadata for {0}", song);
             Task.Factory.StartNew(() =>
             {
-                var lyric = FetchLyrics(song, true);
+                var lyric = FetchLyrics(song, false);
                 if (lyric.Any())
                     _display.DoDisplay(lyric.First().Value);
                 else
@@ -91,6 +91,7 @@ namespace MusicData
                             x.Value.FetchedMetadata = synonim.Value;
                             x.Value.OriginalMetadata = song;
                             x.Certainity *= synonim.Certainity;
+                            x.Value.Fetcher = fetcher.GetType().FullName;
                             return x;
                         }));
                         if (stopOnFirst)

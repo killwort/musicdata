@@ -64,6 +64,8 @@
     <Compile Include="Database.cs" />
     <Compile Include="Impl\DiscogsAlbumArtFetcher.cs" />
     <Compile Include="Impl\FanartTvArtFetcher.cs" />
+    <Compile Include="Impl\LyricsComLyricFetcher.cs" />
+    <Compile Include="Impl\MpdFilesystemArtFetcher.cs" />
     <Compile Include="Impl\MusicbrainzIdentifier.cs" />
     <Compile Include="Impl\StringSanitizer.cs" />
     <Compile Include="LyricFetcher.cs" />

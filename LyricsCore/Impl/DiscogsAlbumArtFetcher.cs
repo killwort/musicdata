@@ -16,7 +16,8 @@ namespace MusicData.Impl
         const string ApiUrl = "https://api.discogs.com/database/search?type=release&q={0}&artist={1}";
         public override IEnumerable<WithCertainity<AlbumArt>> Fetch(Song song)
         {
-            var request = (HttpWebRequest)WebRequest.Create(string.Format(ApiUrl, Uri.EscapeDataString(song.Album), Uri.EscapeDataString(song.Artist)));
+            string search, release;
+            var request = (HttpWebRequest)WebRequest.Create(search=string.Format(ApiUrl, Uri.EscapeDataString(song.Album), Uri.EscapeDataString(song.Artist)));
             request.UserAgent = "TouchMPC/Album art fetcher";
             request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Discogs key={0}, secret={1}", ApiKey, ApiSecret));
             using (var resp = request.GetResponse())
@@ -25,7 +26,7 @@ namespace MusicData.Impl
             {
                 var json = (JObject)JsonConvert.DeserializeObject(reader.ReadToEnd());
                 var url = (json["results"]).Children().First()["resource_url"];
-                request = (HttpWebRequest)WebRequest.Create(url.ToString());
+                request = (HttpWebRequest)WebRequest.Create(release=url.ToString());
                 request.UserAgent = "TouchMPC/Album art fetcher";
                 request.Headers.Add(HttpRequestHeader.Authorization, string.Format("Discogs key={0}, secret={1}", ApiKey, ApiSecret));
                 using (var resp2 = request.GetResponse())
@@ -44,7 +45,8 @@ namespace MusicData.Impl
                         strm3.CopyTo(ms);
                         yield return new WithCertainity<AlbumArt>(new AlbumArt
                         {
-                            ImageData = ms.ToArray()
+                            ImageData = ms.ToArray(),
+                            FetcherData = string.Format("Search: {0}\nRelease: {1}\nImage: {2}",search,release,url.ToString())
                         }, 1f);
                     }
                 }

@@ -22,9 +22,12 @@ namespace MusicData.Impl
         public override IEnumerable<WithCertainity<Lyric>> Fetch(Song song)
         {
             var url = SearchPage(song);
+            var data=new StringBuilder();
             do
             {
                 Logger.DebugFormat("Fetching search page {0}", url);
+                data.Append("Search: ");
+                data.AppendLine(url.ToString());
                 var request = WebRequest.Create(url);
                 using (var response = request.GetResponse())
                 using (var stream = response.GetResponseStream())
@@ -35,7 +38,9 @@ namespace MusicData.Impl
                     hdoc.LoadHtml(searchResults);
                     foreach (var songUrl in ParseSearchResults(song, hdoc))
                     {
-                        yield return new WithCertainity<Lyric>(ProcessSongPage(song,songUrl.Value),songUrl.Certainity);
+                        var lyric = ProcessSongPage(song, songUrl.Value);
+                        lyric.FetcherData = data.ToString() + "Page: " + songUrl.Value.ToString();
+                        yield return new WithCertainity<Lyric>(lyric,songUrl.Certainity);
                     }
                     url = NextSearchPage(song, hdoc);
                 }

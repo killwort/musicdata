@@ -9,7 +9,7 @@ namespace MusicData.Impl
         static readonly Uri Base = new Uri("http://lyrics.wikia.com/");
         protected override Uri SearchPage(Song song)
         {
-            return new Uri(Base,string.Format("/api.php?artist={0}&song={1}",Uri.EscapeDataString(song.Artist),Uri.EscapeDataString(song.Title)));
+            return new Uri(Base,string.Format("/api.php?action=query&artist={0}&song={1}",Uri.EscapeDataString(song.Artist),Uri.EscapeDataString(song.Title)));
         }
 
         protected override Uri NextSearchPage(Song song, HtmlDocument document)

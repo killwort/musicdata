@@ -12,7 +12,7 @@ namespace MusicData
         {
             Value = value;
         }
-
+        
         public T Value { get; private set; }
         public float Certainity { get; set; }
     }
