@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-using LyricsCore;
+using MusicData;
 using Ninject;
 
 namespace WinFormsDisplay
@@ -20,6 +21,14 @@ namespace WinFormsDisplay
             lblArtist.Text = lyric.OriginalMetadata.Artist;
             lblTitle.Text = lyric.OriginalMetadata.Title;
             lblLyrics.Text = lyric.Text.Replace("\n","\r\n");
+        }
+        public void Display(AlbumArt art)
+        {
+            try
+            {
+                pbAlbumArt.Image = new Bitmap(new MemoryStream(art.ImageData));
+            }
+            catch { }
         }
 
         private Point? grabPoint;

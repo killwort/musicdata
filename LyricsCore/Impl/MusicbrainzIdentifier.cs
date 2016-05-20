@@ -17,7 +17,8 @@ namespace MusicData.Impl
         */
         public static Guid? GetAlbumId(string artist, string album)
         {
-            var request = WebRequest.Create(string.Format("{0}release-group?query=artist:%22{1}%22%20AND%20%22{2}%22~3", Base, Uri.EscapeDataString(artist), Uri.EscapeDataString(StringSanitizer.Sanitize(album))));
+            var request =(HttpWebRequest) WebRequest.Create(string.Format("{0}release-group?query=artist:%22{1}%22%20AND%20%22{2}%22~3", Base, Uri.EscapeDataString(artist), Uri.EscapeDataString(StringSanitizer.Sanitize(album))));
+            request.UserAgent = "TouchMPC-MusicData/1.0 (killwort@gmail.com)";
             using (var response = request.GetResponse())
             using (var strm = response.GetResponseStream())
             {

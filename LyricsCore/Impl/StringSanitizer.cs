@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace MusicData.Impl
 {
@@ -9,6 +10,11 @@ namespace MusicData.Impl
         public static string Sanitize(string src)
         {
             return SmallWordsCleanup.Replace(src, " ").Trim();
+        }
+
+        public static bool IsSame(string a, string b)
+        {
+            return string.Equals(Sanitize(a), Sanitize(b), StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

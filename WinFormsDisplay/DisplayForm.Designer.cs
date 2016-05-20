@@ -38,12 +38,14 @@
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.pnlScroll = new System.Windows.Forms.Panel();
             this.lblLyrics = new System.Windows.Forms.Label();
+            this.pbAlbumArt = new System.Windows.Forms.PictureBox();
             flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             label3 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.pnlScroll.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAlbumArt)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -114,7 +116,7 @@
             this.pnlScroll.Controls.Add(this.lblLyrics);
             this.pnlScroll.Location = new System.Drawing.Point(0, 19);
             this.pnlScroll.Name = "pnlScroll";
-            this.pnlScroll.Size = new System.Drawing.Size(776, 372);
+            this.pnlScroll.Size = new System.Drawing.Size(375, 372);
             this.pnlScroll.TabIndex = 4;
             this.pnlScroll.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblLyrics_MouseDown);
             this.pnlScroll.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblLyrics_MouseMove);
@@ -133,11 +135,22 @@
             this.lblLyrics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblLyrics_MouseMove);
             this.lblLyrics.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblLyrics_MouseUp);
             // 
+            // pbAlbumArt
+            // 
+            this.pbAlbumArt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbAlbumArt.Location = new System.Drawing.Point(381, 19);
+            this.pbAlbumArt.Name = "pbAlbumArt";
+            this.pbAlbumArt.Size = new System.Drawing.Size(395, 372);
+            this.pbAlbumArt.TabIndex = 5;
+            this.pbAlbumArt.TabStop = false;
+            // 
             // DisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(776, 393);
+            this.Controls.Add(this.pbAlbumArt);
             this.Controls.Add(this.pnlScroll);
             this.Controls.Add(flowLayoutPanel1);
             this.Name = "DisplayForm";
@@ -147,6 +160,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.pnlScroll.ResumeLayout(false);
             this.pnlScroll.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAlbumArt)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,6 +174,6 @@
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Panel pnlScroll;
         private System.Windows.Forms.Label lblLyrics;
-
+        private System.Windows.Forms.PictureBox pbAlbumArt;
     }
 }

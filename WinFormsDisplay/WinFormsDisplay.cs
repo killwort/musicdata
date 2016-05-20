@@ -5,8 +5,8 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using LyricsCore;
-using LyricsCore.Configuration;
+using MusicData;
+using MusicData.Configuration;
 using Ninject;
 
 namespace WinFormsDisplay
@@ -45,6 +45,17 @@ namespace WinFormsDisplay
             _form.Display(lyric);
         }
 
+        public override void DoDisplay(AlbumArt albumArt)
+        {
+            if (_form.InvokeRequired)
+            {
+                _form.Invoke(new DisplayArtDelegate(DoDisplay), albumArt);
+                return;
+            }
+            _form.Display(albumArt);
+        }
+
         private delegate void DisplayDelegate(Lyric lyric);
+        private delegate void DisplayArtDelegate(AlbumArt lyric);
     }
 }

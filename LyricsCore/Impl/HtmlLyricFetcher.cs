@@ -39,6 +39,7 @@ namespace MusicData.Impl
                     foreach (var songUrl in ParseSearchResults(song, hdoc))
                     {
                         var lyric = ProcessSongPage(song, songUrl.Value);
+                        if (lyric == null || string.IsNullOrEmpty(lyric.Text)) continue;
                         lyric.FetcherData = data.ToString() + "Page: " + songUrl.Value.ToString();
                         yield return new WithCertainity<Lyric>(lyric,songUrl.Certainity);
                     }
@@ -130,6 +131,7 @@ namespace MusicData.Impl
 
         private void WalkHtmlTree(StringBuilder builder, HtmlNode node)
         {
+            if (node == null) return;
             if (node.NodeType == HtmlNodeType.Comment) return;
             if (node.NodeType == HtmlNodeType.Element)
             {

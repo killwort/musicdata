@@ -32,6 +32,7 @@ namespace MusicData.Impl
             {
                 artist = !artist;
                 if (artist) continue;
+                if (!StringSanitizer.IsSame(node.InnerText, song.Title)) continue;
                 yield return new WithCertainity<Uri>(new Uri(Base,node.Attributes["href"].Value),.8f);
                 yield break;
             }
